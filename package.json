@@ -1,0 +1,159 @@
+{
+  "name": "cypres-example",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@date-io/dayjs": "^2.13.1",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.5.0",
+    "@mui/lab": "^5.0.0-alpha.59",
+    "@mui/material": "^5.5.0",
+    "dayjs": "^1.10.8",
+    "formik": "^2.2.9",
+    "formik-mui": "^4.0.0-alpha.3",
+    "formik-mui-lab": "^1.0.0-alpha.3",
+    "react": "^17.0.2",
+    "react-app-rewired": "^2.2.1",
+    "react-dom": "^17.0.2",
+    "react-intl": "^5.24.6",
+    "react-query": "^3.34.16",
+    "react-router-dom": "^6.2.2",
+    "react-scripts": "^5.0.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@cypress/code-coverage": "^3.9.12",
+    "@formatjs/cli": "^4.7.1",
+    "@storybook/addon-essentials": "^6.4.10",
+    "@storybook/addon-interactions": "^6.4.10",
+    "@storybook/builder-webpack5": "^6.4.10",
+    "@storybook/jest": "^0.0.9",
+    "@storybook/manager-webpack5": "^6.4.10",
+    "@storybook/preset-create-react-app": "^4.0.0",
+    "@storybook/react": "^6.4.10",
+    "@storybook/testing-library": "^0.0.9",
+    "@storybook/testing-react": "^1.2.2",
+    "@testing-library/cypress": "^8.0.2",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/css-mediaquery": "^0.1.1",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.8",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-router-dom": "^5.3.1",
+    "@types/uuid": "^8.3.4",
+    "babel-plugin-formatjs": "^10.3.15",
+    "babel-plugin-istanbul": "^6.1.1",
+    "cross-env": "^7.0.3",
+    "css-mediaquery": "^0.1.2",
+    "customize-cra": "^1.0.0",
+    "cypress": "^9.2.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-formatjs": "^3.0.0",
+    "eslint-plugin-storybook": "^0.5.5",
+    "msw": "^0.39.1",
+    "msw-storybook-addon": "^1.5.0",
+    "prettier": "^2.5.1",
+    "start-server-and-test": "^1.14.0",
+    "storybook-dark-mode": "^1.0.8",
+    "storybook-react-intl": "^1.0.4",
+    "typescript": "^4.5.4",
+    "webpack": "^5.65.0",
+    "webpack-bundle-analyzer": "^4.4.2"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "cross-env CI=true react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "build:analyze": "npm run build -- --analyze",
+    "test:coverage": "react-app-rewired test --coverage --watchAll=false",
+    "test:ci": "cross-env CI=true npm run test:coverage -- --ci",
+    "lint": "eslint src .storybook cypress --max-warnings 0",
+    "storybook": "start-storybook -p 6006",
+    "storybook:build": "build-storybook -s public",
+    "intl:extract": "formatjs extract \"src/**/*.ts*\" --out-file lang/en.json --ignore \"src/**/*.test.tsx\" --ignore \"src/**/*.stories.tsx\" --ignore \"src/react-app-env.d.ts\"",
+    "intl:compile": "formatjs compile-folder lang src/i18n",
+    "format": "prettier --write src",
+    "format:check": "prettier --check src",
+    "cy": "cypress open",
+    "cy:run": "cypress run",
+    "test:integration": "npm run cy:docker:build && npm run cy:docker:run",
+    "cy:docker:build": "docker build --tag cypress .",
+    "cy:docker:run": "docker run -v $PWD:/test -w /test cypress",
+    "cy:docker:cmd": "start-server-and-test start http-get://localhost:3000 cy:docker:cmd:exec",
+    "cy:docker:cmd:exec": "cypress install && cypress run --config video=false"
+  },
+  "eslintConfig": {
+    "plugins": [
+      "formatjs"
+    ],
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "plugin:storybook/recommended",
+      "plugin:cypress/recommended"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "cypress/**/*.ts"
+        ],
+        "rules": {
+          "testing-library/await-async-query": "off",
+          "testing-library/prefer-screen-queries": "off"
+        }
+      }
+    ],
+    "rules": {
+      "formatjs/enforce-description": [
+        "error",
+        "literal"
+      ],
+      "formatjs/enforce-default-message": [
+        "error",
+        "literal"
+      ],
+      "formatjs/enforce-placeholders": "error",
+      "formatjs/no-id": "error"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">= 14.x",
+    "npm": ">= 6.x"
+  },
+  "msw": {
+    "workerDirectory": "public"
+  },
+  "nyc": {
+    "report-dir": "cypress-coverage",
+    "all": true,
+    "include": [
+      "src/**"
+    ],
+    "exclude": [
+      "src/**/*.test.*",
+      "src/**/*.stories.*",
+      "src/**/index.ts",
+      "src/setupTests.ts",
+      "src/react-app-env.d.ts",
+      "src/i18n"
+    ]
+  }
+}

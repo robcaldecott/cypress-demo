@@ -1,0 +1,8 @@
+{
+  "plugins": [["formatjs", { "ast": true }]],
+  "env": {
+    "development": {
+      "plugins": ["istanbul"]
+    }
+  }
+}
